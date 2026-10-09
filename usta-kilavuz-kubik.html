@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>Usta Kılavuz – Kübik</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f4f1ea;--fg:#111;--mut:#555;--card:#fff;--bd:#111;--ac:#ff5a1f;--ac2:#ffd23f;--ok:#12a150;--bad:#d00000;--badbg:#ffe1e1;--sh:#111;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--fg:#f4f1ea;--mut:#aaa;--card:#1c1c1c;--bd:#f4f1ea;--ac:#ff7a45;--ac2:#ffd23f;--ok:#4ade80;--bad:#ff8a8a;--badbg:#3a1414;--sh:#f4f1ea}}
+:root[data-theme="dark"]{--bg:#111;--fg:#f4f1ea;--mut:#aaa;--card:#1c1c1c;--bd:#f4f1ea;--ac:#ff7a45;--ac2:#ffd23f;--ok:#4ade80;--bad:#ff8a8a;--badbg:#3a1414;--sh:#f4f1ea}
+*{border-radius:0!important}
+html,body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 "Space Grotesk",ui-monospace,"SF Mono",Consolas,monospace;
+background-image:linear-gradient(var(--bd) 1px,transparent 1px),linear-gradient(90deg,var(--bd) 1px,transparent 1px);background-size:40px 40px;background-attachment:fixed;background-blend-mode:soft-light}
+main{max-width:760px;margin:0 auto;padding:18px}
+header{display:flex;align-items:center;gap:18px;margin-bottom:18px}
+.scene{width:56px;height:56px;perspective:300px;flex:none}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:spin 9s linear infinite}
+.cube i{position:absolute;inset:0;width:56px;height:56px;border:3px solid var(--bd);display:grid;place-items:center;font-style:normal;font-size:24px}
+.cube i:nth-child(1){transform:translateZ(28px);background:var(--ac)}.cube i:nth-child(2){transform:rotateY(90deg) translateZ(28px);background:var(--ac2)}
+.cube i:nth-child(3){transform:rotateY(180deg) translateZ(28px);background:var(--card)}.cube i:nth-child(4){transform:rotateY(-90deg) translateZ(28px);background:var(--ac2)}
+.cube i:nth-child(5){transform:rotateX(90deg) translateZ(28px);background:var(--card)}.cube i:nth-child(6){transform:rotateX(-90deg) translateZ(28px);background:var(--ac)}
+@keyframes spin{to{transform:rotateX(-24deg) rotateY(360deg)}}
+@media(prefers-reduced-motion:reduce){.cube{animation:none;transform:rotateX(-24deg) rotateY(-30deg)}}
+h1{font-size:28px;margin:0;text-transform:uppercase;letter-spacing:-.5px}.sub{color:var(--mut);font-size:13px;margin:2px 0 0}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+button{font:inherit;font-weight:700;border:3px solid var(--bd);background:var(--card);color:var(--fg);padding:10px 12px;cursor:pointer;box-shadow:5px 5px 0 var(--sh);transition:transform .08s,box-shadow .08s}
+button:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--sh)}
+button:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--sh)}
+button.p{background:var(--ac);color:#111}button.on{background:var(--ac2);color:#111}
+button:disabled{opacity:.4}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:3px solid var(--bd);padding:16px;margin-bottom:16px;box-shadow:8px 8px 0 var(--sh)}
+.grid .card{margin:0}
+.task{display:block;width:100%;text-align:left}
+.task .ic{display:grid;place-items:center;width:64px;height:64px;font-size:32px;background:var(--ac2);border:3px solid var(--bd);box-shadow:5px 5px 0 var(--sh);margin-bottom:14px}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border:2px solid var(--bd);margin:3px 4px 0 0;text-transform:uppercase}
+.hz{background:var(--badbg);color:var(--bad);border:3px solid var(--bad);padding:10px;margin:12px 0;font-size:14px;font-weight:600}
+.segs{display:flex;gap:6px;margin:12px 0 16px}.segs b{flex:1;height:18px;border:3px solid var(--bd);background:var(--card)}.segs b.d{background:var(--ac)}.segs b.c{background:var(--ac2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+textarea{width:100%;box-sizing:border-box;font:13px/1.4 ui-monospace,Consolas,monospace;background:var(--bg);color:var(--fg);border:3px solid var(--bd);padding:8px;min-height:120px;margin-bottom:10px}
+.big{font-size:44px;font-weight:800;color:var(--ac);text-transform:uppercase;line-height:1.1}
+img.ph{max-width:100%;border:3px solid var(--bd);margin-top:10px}
+small{color:var(--mut)}h2{text-transform:uppercase;margin:6px 0}
+</style></head><body><main>
+<header><div class="scene"><div class="cube"><i>🛠️</i><i>🔧</i><i>⚡</i><i>🔥</i><i>🚰</i><i>🚨</i></div></div><div><h1>Usta Kılavuz</h1><p class="sub">Adım adım, doğrulamalı saha kılavuzu. Takılırsan ustaya devret.</p></div></header>
+<nav id="nav"></nav><div id="v"></div>
+<p class="sub" style="margin-top:24px">Eğitim amaçlı prototiptir. Doğalgaz ve yüksek gerilim işleri yetkili servis/ehliyetli usta gerektirir. MYK belgesi yerine geçmez.</p>
+</main>
+<script>
+const T=[
+{id:'batarya',ic:'🚰',n:'Damlatan bataryanın kartuşunu değiştir',lvl:'Düşük',min:25,ppe:['Eldiven'],steps:[
+{t:'Su vanasını kapat',d:'Lavabo altındaki köşe musluklarını saat yönünde sonuna kadar çevir. Bataryayı aç, suyun kesildiğini gör.'},
+{t:'Kapağı ve kolu sök',d:'Kolun üstündeki küçük kapağı ince tornavidayla kaldır, vidayı gevşetip kolu çıkar.',h:'Alet kayarsa yüzeyi çizmemek için bez sar.'},
+{t:'Kartuşu çıkar',d:'Boru anahtarıyla somunu saat yönünün tersine çevir. Eski kartuşu düz çek ve markasına/ölçüsüne (35 veya 40 mm) bak.'},
+{t:'Yeni kartuşu tak',d:'Aynı ölçüde kartuşu yuvaya, pimler hizalı olacak şekilde oturt. Somunu elle sık, anahtarla çeyrek tur ekle.'},
+{t:'Kolu tak, sızıntıyı test et',d:'Kolu geri tak. Köşe musluğunu YAVAŞ aç. Altı kuru bezle silip 2 dakika sızıntı bekle.'}]},
+{id:'priz',ic:'🔌',n:'Duvar prizini değiştir',lvl:'Yüksek',min:30,ppe:['Yalıtımlı eldiven','Kontrol kalemi'],steps:[
+{t:'Sigortayı kapat',d:'Sigorta panosunda ilgili hattı indir. Başkasının açmaması için üstüne not yapıştır.',h:'Sadece bu adımla yetinme; sonraki adımda mutlaka test et.'},
+{t:'Enerjiyi test et',d:'Kontrol kalemi veya multimetreyle prizde gerilim olmadığını doğrula.',h:'Test etmeden telle temas etme. Gerilim varsa DUR ve ustaya devret.'},
+{t:'Prizi sök',d:'Çerçeveyi ve vidaları çıkar. Kabloların hangi klemense bağlı olduğunu fotoğrafla kayıt altına al.',ph:true},
+{t:'Kabloları yeni prize bağla',d:'Faz/nötr klemensleri ve toprak hattını fotoğraftaki gibi bağla. Çıplak bakır kısmı çok uzun bırakma.',h:'Gevşek bağlantı ısınma ve yangın riskidir. Vidaları sıkıca sık.'},
+{t:'Monte et ve test et',d:'Prizi yerine vidala, sigortayı aç, bir cihazla çalıştığını doğrula. Isınma/koku varsa hemen kapat.'}]},
+{id:'kombi',ic:'🔥',n:'Kombi basıncı düştü (doldurma)',lvl:'Orta',min:10,ppe:['Eldiven'],steps:[
+{t:'Kombiyi kapat, soğumasını bekle',d:'Kombiyi bekleme/kapalı konuma al, 10 dakika soğumasını bekle.',h:'Gaz kokusu varsa DUR. Pencere aç, elektrik düğmesine dokunma, 187 doğalgaz acil hattını ara.'},
+{t:'Basıncı oku',d:'Manometre soğukken normalde 1–1,5 bar aralığında olmalı. Altındaysa devam et.'},
+{t:'Doldurma vanasını bul',d:'Kombi altındaki doldurma musluğunu/ kolunu bul (modele göre değişir). Emin değilsen kılavuzdan veya ustandan teyit al.'},
+{t:'Yavaş doldur',d:'Vanayı yavaşça aç, ibre 1,3 bara gelince kapat. Havayı peteklerden almak gerekebilir.'},
+{t:'Düşüş tekrarlıyorsa servis çağır',d:'Basınç günler içinde tekrar düşüyorsa sızıntı vardır; yetkili servise devret.'}]}];
+const Q={id:'deprem',ic:'🚨',n:'Deprem sonrası ilk 10 dakika: Gaz–Elektrik–Su',lvl:'Acil',min:10,ppe:['Ayakkabı','El feneri'],steps:[
+{t:'Önce kendini ve yakınlarını güvene al',d:'Sarsıntı bitti mi? Yaralı var mı? Ağır yaralı veya enkaz varsa 112\'yi ara. Güvenli açık alana geç.'},
+{t:'Gaz kokusu var mı?',ask:1,d:'Kapıyı/pencereyi aç. Koku alıyor musun?',h:'Işık düğmesi, çakmak, telefon şarjı: kıvılcım çıkaracak hiçbir şeye dokunma.'},
+{t:'Elektriği kes',d:'Ana şalteri veya sigortaları kapat. Kablo sarkması, ıslak zemin, yanık kokusu varsa ana şalter dışında hiçbir şeye dokunma.',h:'Islak zeminde elektrik panosuna basma. Ayakkabı giy.'},
+{t:'Ana su vanasını kapat',d:'Boru kopması riskine karşı ana vanayı kapat. Tavandan/duvardan sızıntı varsa fotoğrafla.',ph:true},
+{t:'Çatlak ve hasar fotoğrafı',d:'Kolon, kiriş ve duvar çatlaklarını dışarıdan/güvenli mesafeden fotoğrafla. Girmeden önce yetkili hasar tespit ekibinden izin bekle.',h:'Bina içinde artçıya karşı kalma. Bu adım hasar tespiti DEĞİLDİR; sadece kayıt amaçlıdır.',ph:true}]};
+const L=[[0,'Çırak'],[30,'Kalfa'],[80,'Usta'],[150,'Ustabaşı']];
+let view='g',cur=null,i=0,photos={},alarm=false,esc=false;
+const S=(()=>{try{return JSON.parse(localStorage.getItem('usta')||'{}')}catch(e){return{}}})();
+S.xp=S.xp||0;S.done=S.done||[];
+function save(){try{localStorage.setItem('usta',JSON.stringify(S))}catch(e){}}
+const $=s=>document.querySelector(s);
+function nav(){$('#nav').innerHTML=[['g','Görevler'],['d','🚨 Deprem'],['p','Pasaport']].map(([k,l])=>`<button class="${view===k?'on':''}" onclick="go('${k}')">${l}</button>`).join('')}
+function go(k){view=k;cur=null;esc=false;alarm=false;if(k==='d')start(Q);else render()}
+function start(t){cur=t;i=0;photos={};esc=false;alarm=false;render()}
+function chips(t){return `<span class="chip">Risk: ${t.lvl}</span><span class="chip">~${t.min} dk</span>`+t.ppe.map(p=>`<span class="chip">🦺 ${p}</span>`).join('')}
+function render(){nav();const v=$('#v');
+if(view==='p'){const r=[...L].reverse().find(x=>S.xp>=x[0]);const nx=L.find(x=>x[0]>S.xp);
+v.innerHTML=`<div class="card"><small>Ustalık seviyen</small><div class="big">${r[1]}</div><b>${S.xp} XP</b>${nx?` · sonraki: ${nx[1]} (${nx[0]} XP)`:''}</div><div class="card"><b>Tamamlanan görevler</b>${S.done.length?S.done.map(d=>`<div>✅ ${d}</div>`).join(''):'<div><small>Henüz yok. İlk görevini tamamla.</small></div>'}</div>`;return}
+if(!cur){v.innerHTML='<div class="grid">'+T.map(t=>`<button class="card task" onclick="start(T.find(x=>x.id==='${t.id}'))"><div class="ic">${t.ic}</div><b>${t.n}</b><br>${chips(t)}</button>`).join('')+'</div>';return}
+if(alarm){v.innerHTML=`<div class="card" style="border-color:var(--bad)"><div class="big" style="color:var(--bad)">DUR!</div><p>Gaz kokusu varsa: <b>binayı terk et</b>, kapıları açık bırak, elektrik düğmesine/telefona dokunma. Dışarıda güvenli yerden <b>187</b> (doğalgaz acil) ve gerekirse <b>112</b>'yi ara.</p><div class="row"><button onclick="go('g')">Çık</button></div></div>`;return}
+const total=cur.steps.length;
+if(i>=total){const first=!S.done.includes(cur.n);if(first){S.xp+=total*5;S.done.push(cur.n);save()}
+v.innerHTML=`<div class="card"><div class="big">🎉 Bitti</div><p>${cur.n}</p><p>${first?`+${total*5} XP kazandın.`:'Bu görevi zaten tamamlamıştın.'}</p><div class="row"><button class="p" onclick="go('p')">Pasaportum</button><button onclick="go('g')">Görevler</button></div></div>`;return}
+const s=cur.steps[i];
+v.innerHTML=`<div class="card"><b>${cur.ic} ${cur.n}</b><div>${chips(cur)}</div><div class="segs">${cur.steps.map((_,k)=>`<b class="${k<i?'d':k===i?'c':''}"></b>`).join('')}</div>
+<small>Adım ${i+1}/${total}</small><h2 style="margin:4px 0">${s.t}</h2><p>${s.d}</p>${s.h?`<div class="hz">⚠️ ${s.h}</div>`:''}
+${photos[i]?`<img class="ph" src="${photos[i]}" alt="Adım fotoğrafı">`:''}
+<div class="row">${s.ask?`<button class="p" style="background:var(--bad);border-color:var(--bad)" onclick="alarm=true;render()">Koku VAR</button><button class="p" onclick="nx()">Koku yok</button>`:`<button class="p" onclick="nx()">Doğruladım ✓ Sonraki</button>`}
+<label><button onclick="this.nextElementSibling.click()">📷 Fotoğraf</button><input type="file" accept="image/*" capture="environment" hidden onchange="ph(this)"></label>
+<button onclick="esc=true;render()">🆘 Emin değilim</button></div></div>
+${esc?escUI():''}`}
+function nx(){i++;render()}
+function ph(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{photos[i]=r.result;render()};r.readAsDataURL(f)}
+function sum(note){const d=cur.steps.slice(0,i).map((x,k)=>`✓ ${k+1}. ${x.t}`).join('\n')||'(henüz adım yok)';
+return `USTA KILAVUZ – DEVİR NOTU\nGörev: ${cur.n}\nRisk: ${cur.lvl}\nTakıldığı adım: ${i+1}. ${cur.steps[i].t}\nFotoğraf: ${Object.keys(photos).length} adet\n\nTamamlananlar:\n${d}\n\nNot: ${note||'-'}`}
+function escUI(){return `<div class="card"><b>Ustaya devret</b><p><small>Özet otomatik hazırlandı; WhatsApp'ta ustana gönder, fotoğrafları ayrıca ekle.</small></p><textarea id="n" oninput="upd()" placeholder="Ne gördüğünü yaz (ses, koku, marka...)"></textarea><textarea id="o" readonly style="min-height:170px">${sum('')}</textarea><div class="row"><button class="p" onclick="wa()">WhatsApp ile gönder</button><button onclick="esc=false;render()">Vazgeç</button></div></div>`}
+function upd(){$('#o').value=sum($('#n').value)}
+function wa(){window.open('https://wa.me/?text='+encodeURIComponent($('#o').value),'_blank')}
+render();
+</script></body></html>
